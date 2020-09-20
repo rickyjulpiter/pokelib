@@ -206,24 +206,39 @@ export default class Pokemon extends Component {
 
         if(catchRateProbability === 2) {
             //jika pokemon berhasil ditangkap
-            catchPotentialMessage = `Successfully caught Pokemon ${name} (Success Probability : ${catchRateProbability})`
+            
+            var nickname = prompt(`Successfully caught Pokemon ${name} (Success Probability : ${catchRateProbability}). Please give nickname for your new Pokemon`, name)
+            if(nickname != null || nickname != "") {
+                Axios
+                    .post(apiEndpoint,null, {
+                        params: {
+                            id : pokemonIndex,
+                            name : name,
+                            url : url,
+                            nickname : nickname
+                        }
+                    })
+                    .then((response) => {
+                        let statusResponse = response.data.results
+                        if(statusResponse === 1) {
+                            //berhasil ditambah setelah di cek ga ada pokemon yang sama sebelumnya
+                            alert("Successfully add to your Pokemon List")
+                        } else {
+                            //jika ternyat apokemon sudah ada di list sebelumnya
+                            alert("Sorry, you already have this type of pokemon")
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            }
             this.setState({
                 catchPotentialMessage
             })
-            Axios
-                .post(apiEndpoint,null, {
-                    params: {
-                        id : pokemonIndex,
-                        name : name,
-                        url : url
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
         } else {
             //pesan bahwa pokemon gagal ditangkap
-            catchPotentialMessage = `Failed caught Pokemon ${name} (Success Probability : ${catchRateProbability})`
+            catchPotentialMessage = `Failed caught Pokemon ${name} (Success Probability : ${catchRateProbability} )`
+            alert(catchPotentialMessage);
         }
         console.log(catchPotentialMessage)
     }

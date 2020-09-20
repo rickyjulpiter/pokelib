@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const TYPE_COLORS = {
     bug: 'B1C12E',
@@ -49,7 +50,8 @@ export default class MyPokeLibCard extends Component {
         evs: '',
         hatchSteps: '',
         themeColor: '#EF5350',
-        linkAPI: ''
+        linkAPI: '',
+        redirect : null
     };
 
     async componentDidMount() {
@@ -196,8 +198,13 @@ export default class MyPokeLibCard extends Component {
             .then(response => {
                 console.log(response.data)
             })
+            alert("Hello! I am an alert box!!");
+
+        // const history = useHistory();
+        // history.push('/mypokemonlist')
     }
    
+
     render() {
         return (
             <div className="col mb-5" style={{marginTop: `5rem`}}>
